@@ -26,12 +26,12 @@ def main():
 
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
-    asteroidfield = AsteroidField()
+    asteroid_field = AsteroidField()
 
     while True : #game loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                return      #exits the game
             
             #elif event.type == pygame.KEYDOWN: #for catching soft taps
             #    if event.key == pygame.K_a:     #
@@ -49,6 +49,11 @@ def main():
 
         updatable.update(dt)
         
+        for sprite in asteroids:
+            if sprite.is_colliding(player):
+                print("Game over!")
+                return      #exits the game
+
         for sprite in drawable:
             sprite.draw(screen)
 
