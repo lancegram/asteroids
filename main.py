@@ -21,17 +21,25 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-            elif event.type == pygame.KEYDOWN:
+            
+            #elif event.type == pygame.KEYDOWN: #for catching soft taps
                 if event.key == pygame.K_a:
                     player.rotate(-dt)
                 if event.key == pygame.K_d:
                     player.rotate(dt)
+                if event.key == pygame.K_w:
+                    player.move(dt)
+                if event.key == pygame.K_s:
+                    player.move(-dt)
                 flag_updated_move = True
             
 
         screen.fill(000000)
         if not flag_updated_move == True: player.update(dt)
-        else: flag_updated_move = False
+        else: flag_updated_move = False #works with the catching soft taps code,
+                                      #should always be false otherwise
+
+        
         player.draw(screen)
 
         pygame.display.flip()
