@@ -14,33 +14,36 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     dt =0 
-    flag_updated_move = False
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    player = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
-    while True :
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    Player.containers = (updatable,drawable)#putting Player objects in containers
+    player = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2) 
+
+    while True : #game loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
             
             #elif event.type == pygame.KEYDOWN: #for catching soft taps
-                if event.key == pygame.K_a:
-                    player.rotate(-dt)
-                if event.key == pygame.K_d:
-                    player.rotate(dt)
-                if event.key == pygame.K_w:
-                    player.move(dt)
-                if event.key == pygame.K_s:
-                    player.move(-dt)
-                flag_updated_move = True
-            
+            #    if event.key == pygame.K_a:     #
+            #        player.rotate(-dt)          #         
+            #    if event.key == pygame.K_d:     #    
+            #        player.rotate(dt)           #
+            #    if event.key == pygame.K_w:     #
+            #        player.move(dt)             #
+            #    if event.key == pygame.K_s:     #
+            #        player.move(-dt)            #
+            #    flag_updated_move = True #need to initialise first
+            #this part is deprecated and remains as an idea suggestion
 
         screen.fill(000000)
-        if not flag_updated_move == True: player.update(dt)
-        else: flag_updated_move = False #works with the catching soft taps code,
-                                      #should always be false otherwise
 
+        updatable.update(dt)
         
-        player.draw(screen)
+        for sprite in drawable:
+            sprite.draw(screen)
 
         pygame.display.flip()
         dt = (clock.tick(60))/1000 #framerate limit: 60fps
